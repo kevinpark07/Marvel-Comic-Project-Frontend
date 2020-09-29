@@ -1,0 +1,211 @@
+* {
+  font-family: 'Roboto', sans-serif;
+}
+
+.rating {
+    unicode-bidi: bidi-override;
+    direction: rtl;
+    margin-bottom: 50px;
+  }
+.rating > span {
+  display: inline-block;
+  position: relative;
+  width: 1.1em;
+}
+.rating > span:hover:before,
+.rating > span:hover ~ span:before {
+   content: "\2605";
+   position: absolute;
+   color: gold;
+}
+
+#submit {
+   display:inline-block;
+   padding:0.35em 1.2em;
+   border:1px solid black;
+   margin:0 0.3em 0.3em 0;
+   border-radius:0.12em;
+   box-sizing: border-box;
+   text-decoration:none;
+   font-family:'Roboto',sans-serif;
+   font-weight:300;
+   color:#FFFFFF;
+   text-align:center;
+   transition: all 0.2s;
+}
+
+#submit:hover{
+ color:#000000;
+ background-color: red;
+}
+
+@media all and (max-width:30em){
+   #submit {
+    display:block;
+    margin:0.4em auto;
+   }
+}
+
+a.button {
+  font-size: 16px;
+  padding: 12px 28px;
+  border-radius: 8px;
+  transition-duration: 0.4s;
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+  font: Helvetica;
+}
+
+a.button:hover{
+ color:#000000;
+ background-color: red;
+}
+@media all and (max-width:30em){
+   .button1{
+    display:block;
+    margin:0.4em auto;
+   }
+}
+
+
+#video {
+  display: block;
+  object-fit: fill;
+  margin: auto;
+  border: 10px inset #ddd;
+}
+
+
+#banner-image {
+  width: 100%;
+  height: 250px;
+  border: 10px inset #ddd;
+}
+
+.topnav {
+  overflow: hidden;
+  width: 100%;
+  background-color: #333;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+div.main-panel {
+  height: auto;
+  width: 70%;
+  margin: auto;
+  position: absolute;
+  z-index: 1;
+  top: 400px;
+  right: 20px;
+  border: 5px solid black;
+}
+
+ul.nav-bar {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  overflow: hidden;
+  background-color: #333;
+  height: 60px;
+}
+li.nav-list {
+  display: inline;
+  float: left;
+  justify-content: center;
+  align-items: center;
+  padding-left: 50px;
+  padding-top: 9px;
+}
+li.search {
+  display: inline-flex;
+  float: right;
+  justify-content: center;
+  align-items: center;
+  height: 50px;
+  padding-right: 10px;
+  padding-top: 5px;
+}
+li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  align-items: center;
+  justify-content: center;
+}
+li a:hover {
+  background-color: maroon;
+}
+
+div.left-panel {
+  height: auto;
+  position: absolute;
+  z-index: 1;
+  top: 400px;
+  left: 10px;
+  display:flex;
+}
+ul#panel-list {
+  list-style-type: none;
+  padding: 0;
+  width: 300px;
+  background-color: #333;
+}
+
+li.panel {
+  display: block;
+  color: red;
+  padding: 8px 16px;
+  text-decoration: none;
+  text-align: center;
+  justify-content: center;
+  padding-top: 50px;
+}
+
+/* Change the link color on hover */
+li.panel:hover {
+  background-color: darkgray;
+}
+input.text-area {
+  width: 80%;
+  height: 100px;
+  /* box-sizing: border-box; */
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  background-color: #f8f8f8;
+  resize: none;
+}
+form#review-form {
+  align-items: center;
+  text-align: center;
+  margin-top: 50px;
+}
+
+
+#hidden {
+  visibility: hidden;
+}
+
+div.comic-book-show {
+  /* justify-content: center; */
+  align-items: center;
+  text-align: center;
+  margin-top: 50px;
+}
+
+
+div#visible {
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+
+img{
+  height: 30%;
+  width: 30%;
+}

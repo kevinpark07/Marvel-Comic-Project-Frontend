@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="./js/index.js" charset="UTF-8"></script>
+    <style> @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');</style>
+    <link href="./css/index.css" rel="stylesheet">
+    <title>Marvel Comic Project</title>
+</head>
+<body>
+    <img class="banner">
+        <video  width="1280" height="300" id="video" loop="true" autoplay controls muted>
+            <source src="./assets/Marvel-Studios-(Marvel-Comics)-Intro-(HD)-MOS.mp4" type="video/mp4">
+        </video>
+        <!-- <img src="./assets/Marvel-Studios-(Marvel-Comics)-Intro-(HD)-MOS.gif" id="banner-image"></img> -->
+    </div>
+    
+    <ul class="nav-bar">
+        <li class="search"><input type="submit" id="search" name="submit-button"></li>  
+        <li class="search"><input type="search" id="search" name="search"></li> 
+        <li class="nav-list"><a class="button" id="home">Home</a></li>  
+        <li class="nav-list"><a class="button" id="all-characters">Characters</a></li>
+        <li class="nav-list"><a class="button" id="random-comic">Random Comic</a></li>
+        <li class="nav-list"><a class="button" id="mini-game">Mini-Game</a></li>
+    </ul>
+
+    <div class="left-panel">
+        <ul id="panel-list">
+           
+        </ul>
+    </div>
+    <div class="main-panel">
+        <div class="character-list" id="hidden"></div>
+        <div class="comic-book-show" id="">
+            <h1 id="title"></h1>
+            <img style="margin-top: 25px; box-shadow: 7px 7px 5px #888888;" id="image" src="">
+            <p style="margin-top: 50px" id="description"></p>
+            <div class="review">
+                <form id="review-form">
+                    <input class="text-area" placeholder="Write Review Here"type="textarea" name="review">
+                    <br>
+                    <br>
+                    <div class="rating">
+                        <span data-rating-id="1">☆</span>
+                        <span data-rating-id="2">☆</span>
+                        <span data-rating-id="3">☆</span>
+                        <span data-rating-id="4">☆</span>
+                        <span data-rating-id="5">☆</span>
+                    </div>
+                    <input type="text" placeholder="Name" name="name">
+                    <input type="submit" name="submit" id="submit"/>
+                </form>
+                <ul id="reviews">
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
