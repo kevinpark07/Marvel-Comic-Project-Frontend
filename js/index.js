@@ -5,8 +5,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const COMICS_BASE_URL = "http://localhost:3000/comic_books/"
     const CHARACTER_BASE_URL = "http://localhost:3000/characters/"
-
-
+    const REVIEW_BASE_URL = "http://localhost:3000/reviews/"
+    const searchBar = document.getElementById("searchBar");
+    let marvelCharacters = [];
 
 
     function startShowingComic(url) {
@@ -32,6 +33,18 @@ document.addEventListener("DOMContentLoaded", () => {
             renderComic(comic)})
     }
 
+    function getAllCharacters() {
+        fetch(CHARACTER_BASE_URL)
+        .then(resp => resp.json())
+        .then(characters => {
+            for(const character of characters ) {
+                marvelCharacters.push(character)
+            }  
+        })
+        console.log(marvelCharacters)
+    }
+    
+
     function getAllCharactersPanel(){
         fetch(CHARACTER_BASE_URL)
         .then(resp => resp.json())
@@ -47,7 +60,8 @@ document.addEventListener("DOMContentLoaded", () => {
     function getComic(comicId) {
         fetch(COMICS_BASE_URL + comicId)
         .then(resp => resp.json())
-        .then(comic => renderComic(comic))
+        .then(comic => {
+            renderComic(comic)})
     }
 
     function getCharacter(characterId) {
@@ -66,20 +80,28 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function renderComic(comic) {
-        console.log(comic)
-        const comicBookShow = document.querySelector(".comic-book-show")
-        comicBookShow.id = "visible"
+        const comicBookShow = document.querySelector(".comic-book-show");
+        comicBookShow.id = "visible";
         const characterList = document.querySelector(".character-list");
-        characterList.id = "hidden"
-        characterList.innerHTML = ``
-        const h1 = document.getElementById('title')
-        h1.textContent = comic.title
-        const averageRating = document.getElementById('average-rating')
-        const image = document.getElementById('image')
-        image.src = comic.image
-        const description = document.getElementById('description')
-        description.textContent = comic.description
-        const reviewList = document.getElementById('reviews')
+        characterList.id = "hidden";
+        characterList.innerHTML = ``;
+        const h1 = document.getElementById('title');
+        h1.textContent = comic.title;
+        const image = document.getElementById('image');
+        image.src = comic.image;
+        const description = document.getElementById('description');
+        description.textContent = comic.description;
+        const reviewForm = document.querySelector("#review-form");
+        reviewForm.dataset.comicId = comic.id;
+        const reviewList = document.getElementById('#reviews');
+        for(const review of comic.reviews) {
+            newLi = document.createElement('li')
+            newLi.innerHTML = `
+            <h3> ${review.rating} </h3>
+            <p>${review.name}says: ${review.comment}</p>
+            `
+            reviewList.appendChild(newLi)
+        }
     };
 
     function renderCharacterLeftPanel(characters) {
@@ -104,7 +126,7 @@ document.addEventListener("DOMContentLoaded", () => {
             comicLi.classList.add("comic-panel-list");
             comicLi.dataset.comicId = comic.id;
             comicLi.innerHTML = `
-            <a class="button" data-comic-id=${comic.id}>${comic.title}</a>`
+            <a class="comic-button" data-comic-id=${comic.id}>${comic.title}</a>`
             ul.appendChild(comicLi);
         }
     };
@@ -117,6 +139,49 @@ document.addEventListener("DOMContentLoaded", () => {
             characterList.innerHTML = ``
             characters.forEach(character => renderCharacterInfo(character))
         })
+    }
+
+    function postReview(form) {
+        const review = form.review.value;
+        const rating = form.querySelector("div.rating");
+        const comicRating = rating.dataset.ratingId;
+        const name = form.name.value
+        const comicId = form.dataset.comicId
+
+        const options = {
+            method: 'POST',
+            headers: {
+            "content-type" : "application/json",
+            "accept" : "application/json"
+            },
+            body: JSON.stringify({
+                comment: review,
+                rating: comicRating,
+                name: name,
+                comic_book: comicId
+            })
+        }
+        fetch(REVIEW_BASE_URL, options)
+        .then(response => response.json())
+        .then(review => {
+            //insertReview(review);
+            console.log(review);
+            form.reset();
+        })
+    }
+
+    const insertReview = reviewObj => {
+        const reviewUl = document.querySelector("#reviews");
+        reviewLi.dataset.reviewId = reviewObj.id;
+        const reviewLi = document.createElement("li");
+        reviewLi.innerHTML = `
+            <p>${reviewObj.comment}</p>
+            <p>${reviewObj.rating}</p>
+            By: ${reviewObj.name} 
+        `
+        console.log(reviewLi);
+        // reviewUl.appendChild(reviewLi)
+        
     }
 
     const renderCharacterInfo = characterObj => {
@@ -143,22 +208,19 @@ document.addEventListener("DOMContentLoaded", () => {
                     characterList.innerHTML = ``
                     renderCharacterInfo(character);
                     renderComicLeftPanel(character);
-                    paused = true;
+                paused = true;
                 })
-            }
-            if (e.target.matches("#comic-book-panel-list")) {
-                getComic(e.target.dataset.comicId);
-            }
-            if (e.target.matches("#all-characters")) {
+            } else if (e.target.matches("#all-characters")) {
                 let comicBookShow = document.querySelector(".comic-book-show")
-                comicBookShow.id = "hidden"
+                comicBookShow.id = "hidden";
+                const comicInfo = document.querySelector('div.comic-info');
+                //comicInfo.innerHTML = '';
                 comicBookShow.innerHTML = ``
 
                 renderAllCharacters();
                 getAllCharactersPanel();
                 paused = true;
-            }
-            if (e.target.matches("#random-comic")) {
+            } else if (e.target.matches("#random-comic")) {
                 const characterList = document.querySelector(".character-list");
                 characterList.innerHTML = ``
                 let comicBookShow = document.querySelector(".comic-book-show")
@@ -166,34 +228,162 @@ document.addEventListener("DOMContentLoaded", () => {
                 getRandomComic();
                 getAllCharactersPanel();
                 paused = true;
-            }
-            if (e.target.matches("#home")) {
+            } else if (e.target.matches("#home")) {
                 const characterList = document.querySelector(".character-list");
                 characterList.innerHTML = ``
                 let comicBookShow = document.querySelector(".comic-book-show")
                 comicBookShow.id = "visible"
                 getAllCharactersPanel();
                 paused = false;
-            }
-            if (e.target.matches(".main-panel")) {
+            } else if (e.target.matches(".main-panel")) {
                 paused = true;
-            }
-            if (e.target.parentNode.matches(".comic-panel-list")) {
-                getComic(e.target.parentNode.dataset.comicId)
+            } else if (e.target.matches("a.comic-button")) {
+                comicId = e.target.dataset.comicId;
+                resetComicShow();
+                getComic(comicId)
+            } else if(e.target.matches(`[data-rating-id="5"]`)) {
+                const rating = document.querySelector(".rating");
+                rating.dataset.ratingId = e.target.dataset.ratingId
+                if (e.target.textContent === "★") {
+                    removeStar();
+                } else {
+                    e.target.textContent = "★";
+                    e.target.style.color = "gold";
+                    const four = e.target.nextElementSibling;
+                    four.textContent = "★";
+                    four.style.color = "gold";
+                    const three = four.nextElementSibling;
+                    three.textContent = "★";
+                    three.style.color = "gold";
+                    const two = three.nextElementSibling;
+                    two.textContent = "★";
+                    two.style.color = "gold";
+                    const one = two.nextElementSibling;
+                    one.textContent = "★";
+                    one.style.color = "gold";
+                }
+            } else if(e.target.matches(`[data-rating-id="4"]`)) {
+                const rating = document.querySelector(".rating");
+                rating.dataset.ratingId = e.target.dataset.ratingId
+                if (e.target.textContent === "★") {
+                    removeStar();
+                } else {
+                e.target.textContent = "★";
+                e.target.style.color = "gold";
+                const three = e.target.nextElementSibling;
+                three.textContent = "★";
+                three.style.color = "gold";
+                const two = three.nextElementSibling;
+                two.textContent = "★";
+                two.style.color = "gold";
+                const one = two.nextElementSibling;
+                one.textContent = "★";
+                one.style.color = "gold";
+                }
+            } else if(e.target.matches(`[data-rating-id="3"]`)) {
+                const rating = document.querySelector(".rating");
+                rating.dataset.ratingId = e.target.dataset.ratingId
+                if (e.target.textContent === "★") {
+                    removeStar();
+                } else {
+                e.target.textContent = "★";
+                e.target.style.color = "gold";
+                const two = e.target.nextElementSibling;
+                two.textContent = "★";
+                two.style.color = "gold";
+                const one = two.nextElementSibling;
+                one.textContent = "★";
+                one.style.color = "gold";
+                }
+            } else if(e.target.matches(`[data-rating-id="2"]`)) {
+                const rating = document.querySelector(".rating");
+                rating.dataset.ratingId = e.target.dataset.ratingId
+                if (e.target.textContent === "★") {
+                    removeStar();
+                } else {
+                e.target.textContent = "★";
+                e.target.style.color = "gold";
+                const one = e.target.nextElementSibling;
+                one.textContent = "★";
+                one.style.color = "gold";
+                }
+            } else if(e.target.matches(`[data-rating-id="1"]`)) {
+                const rating = document.querySelector(".rating");
+                rating.dataset.ratingId = e.target.dataset.ratingId
+                if (e.target.textContent === "★") {
+                    removeStar();
+                } else {
+                e.target.textContent = "★";
+                e.target.style.color = "gold";
+                }
             }
         })
     }
+
+    const removeStar = () => {
+        const ratingDiv = document.querySelector('div.rating');
+        ratingDiv.dataset.ratingId = 0
+        ratingDiv.innerHTML = '';
+        ratingDiv.innerHTML = `
+            <span data-rating-id="5">☆</span>
+            <span data-rating-id="4">☆</span>
+            <span data-rating-id="3">☆</span>
+            <span data-rating-id="2">☆</span>
+            <span data-rating-id="1">☆</span>
+        `
+    }
+
 
     const submitHandler = () => {
         document.addEventListener('submit', e => {
             e.preventDefault();
-        })
+            if (e.target.matches("#review-form")) {
+                postReview(e.target)
+            }
+            if (e.target.matches("#submit-search")) {
+            console.log(e.target.previousElementSibling)
+             let searchedCharacter = marvelCharacters.filter( character => {
+                    return character.name.includes(e.target.previousElementSibling.value)
+                    });
+                getCharacter(searchedCharacter.id)
+            };
+         })
     }
 
+getAllCharacters();
 getAllCharactersPanel();
 getRandomComic();
 startShowingComic(COMICS_BASE_URL);
 clickHandler();
+submitHandler();
 
 
+function resetComicShow() {
+    const comicBookShow = document.querySelector(".comic-book-show");
+    comicBookShow.innerHTML = `
+    <div class="comic-info">
+            <h1 id="title"></h1>
+            <img style="margin-top: 25px; box-shadow: 7px 7px 5px #888888;" id="image" src="">
+            <p style="margin-top: 50px" id="description"></p>
+        </div>
+        <div class="review">
+            <form id="review-form">
+                <input class="text-area" placeholder="Write Review Here"type="textarea" name="review">
+                <br>
+                <br>
+                <div class="rating">
+                    <span data-rating-id="5">☆</span>
+                    <span data-rating-id="4">☆</span>
+                    <span data-rating-id="3">☆</span>
+                    <span data-rating-id="2">☆</span>
+                    <span data-rating-id="1">☆</span>
+                </div>
+                <input type="text" placeholder="Name" name="name">
+                <input type="submit" name="submit" id="submit"/>
+            </form>
+            <ul id="reviews">
+            </ul>
+        </div>
+    `
+    }
 })

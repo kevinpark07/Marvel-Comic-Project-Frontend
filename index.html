@@ -17,8 +17,7 @@
     </div>
     
     <ul class="nav-bar">
-        <li class="search"><input type="submit" id="search" name="submit-button"></li>  
-        <li class="search"><input type="search" id="search" name="search"></li> 
+        <li class="search"> <input type="text" placeholder="Search Characters.." name="search"><button id="submit-search" type="submit">Search!</button></li>
         <li class="nav-list"><a class="button" id="home">Home</a></li>  
         <li class="nav-list"><a class="button" id="all-characters">Characters</a></li>
         <li class="nav-list"><a class="button" id="random-comic">Random Comic</a></li>
@@ -33,23 +32,28 @@
     <div class="main-panel">
         <div class="character-list" id="hidden"></div>
         <div class="comic-book-show" id="">
-            <h1 id="title"></h1>
-            <img style="margin-top: 25px; box-shadow: 7px 7px 5px #888888;" id="image" src="">
-            <p style="margin-top: 50px" id="description"></p>
+            <div class="comic-info">
+                <h1 id="title"></h1>
+                <img style="margin-top: 25px; box-shadow: 7px 7px 5px #888888;" id="image" src="">
+                <p id="average-rating"></p>
+                <p style="margin-top: 50px" id="description"></p>
+            </div>
             <div class="review">
                 <form id="review-form">
+                    <input type="text" placeholder="Name" name="name">
+                    <br>
+                    <br>
                     <input class="text-area" placeholder="Write Review Here"type="textarea" name="review">
                     <br>
                     <br>
                     <div class="rating">
-                        <span data-rating-id="1">☆</span>
-                        <span data-rating-id="2">☆</span>
-                        <span data-rating-id="3">☆</span>
-                        <span data-rating-id="4">☆</span>
                         <span data-rating-id="5">☆</span>
+                        <span data-rating-id="4">☆</span>
+                        <span data-rating-id="3">☆</span>
+                        <span data-rating-id="2">☆</span>
+                        <span data-rating-id="1">☆</span>
                     </div>
-                    <input type="text" placeholder="Name" name="name">
-                    <input type="submit" name="submit" id="submit"/>
+                    <input type="submit" name="submit"/>
                 </form>
                 <ul id="reviews">
                 </ul>

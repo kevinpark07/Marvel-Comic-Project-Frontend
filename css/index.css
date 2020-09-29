@@ -18,6 +18,22 @@
    position: absolute;
    color: gold;
 }
+.active-star {
+  unicode-bidi: bidi-override;
+  direction: rtl;
+  margin-bottom: 50px;
+}
+.active-star > span {
+display: inline-block;
+position: relative;
+width: 1.1em;
+}
+.active-star > span::before {
+  content: "\2605";
+  position: absolute;
+  color: gold;
+  fill: gold;
+}
 
 #submit {
    display:inline-block;
