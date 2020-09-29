@@ -41,7 +41,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 marvelCharacters.push(character)
             }  
         })
-        console.log(marvelCharacters)
     }
     
 
@@ -93,16 +92,19 @@ document.addEventListener("DOMContentLoaded", () => {
         description.textContent = comic.description;
         const reviewForm = document.querySelector("#review-form");
         reviewForm.dataset.comicId = comic.id;
-        const reviewList = document.getElementById('#reviews');
+        const reviewList = document.getElementById('reviews');
         for(const review of comic.reviews) {
-            newLi = document.createElement('li')
+            let newLi = document.createElement('li')
             newLi.innerHTML = `
-            <h3> ${review.rating} </h3>
-            <p>${review.name}says: ${review.comment}</p>
+            Rating: ${review.rating}
+            <br>
+            Review: ${review.comment}
+            <br>
+            By: ${review.name}
             `
-            reviewList.appendChild(newLi)
+            reviewList.append(newLi)
         }
-    };
+    }
 
     function renderCharacterLeftPanel(characters) {
         let ul = document.getElementById('panel-list')
@@ -158,29 +160,29 @@ document.addEventListener("DOMContentLoaded", () => {
                 comment: review,
                 rating: comicRating,
                 name: name,
-                comic_book: comicId
+                comic_book_id: comicId
             })
         }
         fetch(REVIEW_BASE_URL, options)
         .then(response => response.json())
         .then(review => {
-            //insertReview(review);
-            console.log(review);
+            insertReview(review);
             form.reset();
         })
     }
 
     const insertReview = reviewObj => {
         const reviewUl = document.querySelector("#reviews");
-        reviewLi.dataset.reviewId = reviewObj.id;
         const reviewLi = document.createElement("li");
+        reviewLi.dataset.reviewId = reviewObj.id;
         reviewLi.innerHTML = `
-            <p>${reviewObj.comment}</p>
-            <p>${reviewObj.rating}</p>
+            Rating: ${reviewObj.rating}
+            <br>
+            Review: ${reviewObj.comment}
+            <br>
             By: ${reviewObj.name} 
         `
-        console.log(reviewLi);
-        // reviewUl.appendChild(reviewLi)
+        reviewUl.appendChild(reviewLi)
         
     }
 
@@ -214,9 +216,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 let comicBookShow = document.querySelector(".comic-book-show")
                 comicBookShow.id = "hidden";
                 const comicInfo = document.querySelector('div.comic-info');
-                //comicInfo.innerHTML = '';
                 comicBookShow.innerHTML = ``
-
                 renderAllCharacters();
                 getAllCharactersPanel();
                 paused = true;
@@ -333,57 +333,68 @@ document.addEventListener("DOMContentLoaded", () => {
         `
     }
 
-
     const submitHandler = () => {
         document.addEventListener('submit', e => {
             e.preventDefault();
             if (e.target.matches("#review-form")) {
                 postReview(e.target)
+                removeStar()
             }
             if (e.target.matches("#submit-search")) {
-            console.log(e.target.previousElementSibling)
-             let searchedCharacter = marvelCharacters.filter( character => {
-                    return character.name.includes(e.target.previousElementSibling.value)
+                paused = true;
+                let searchedCharacter = marvelCharacters.filter(character => {
+                    return character.name.includes(e.target.search.value)
                     });
-                getCharacter(searchedCharacter.id)
-            };
-         })
+                let characterId = searchedCharacter.map(character => {
+                    return character.id
+                })
+                getCharacter(characterId)
+                .then(character => {
+                    const characterList = document.querySelector(".character-list");
+                    characterList.innerHTML = ``
+                    renderCharacterInfo(character);
+                    renderComicLeftPanel(character);
+                });
+                resetComicShow();
+            }
+        })
     }
 
-getAllCharacters();
-getAllCharactersPanel();
-getRandomComic();
-startShowingComic(COMICS_BASE_URL);
-clickHandler();
-submitHandler();
+    getAllCharacters();
+    getAllCharactersPanel();
+    getRandomComic();
+    startShowingComic(COMICS_BASE_URL);
+    clickHandler();
+    submitHandler();
 
-
-function resetComicShow() {
-    const comicBookShow = document.querySelector(".comic-book-show");
-    comicBookShow.innerHTML = `
-    <div class="comic-info">
-            <h1 id="title"></h1>
-            <img style="margin-top: 25px; box-shadow: 7px 7px 5px #888888;" id="image" src="">
-            <p style="margin-top: 50px" id="description"></p>
-        </div>
-        <div class="review">
-            <form id="review-form">
-                <input class="text-area" placeholder="Write Review Here"type="textarea" name="review">
-                <br>
-                <br>
-                <div class="rating">
-                    <span data-rating-id="5">☆</span>
-                    <span data-rating-id="4">☆</span>
-                    <span data-rating-id="3">☆</span>
-                    <span data-rating-id="2">☆</span>
-                    <span data-rating-id="1">☆</span>
-                </div>
-                <input type="text" placeholder="Name" name="name">
-                <input type="submit" name="submit" id="submit"/>
-            </form>
-            <ul id="reviews">
-            </ul>
-        </div>
-    `
+    function resetComicShow() {
+        const comicBookShow = document.querySelector(".comic-book-show");
+        comicBookShow.innerHTML = `
+        <div class="comic-info">
+                <h1 id="title"></h1>
+                <img style="margin-top: 25px; box-shadow: 7px 7px 5px #888888;" id="image" src="">
+                <p style="margin-top: 50px" id="description"></p>
+            </div>
+            <div class="review">
+                <form id="review-form">
+                    <input type="text" placeholder="Name" name="name">
+                    <br>
+                    <br>
+                    <input class="text-area" placeholder="Write Review Here"type="textarea"     name="review">
+                    <br>
+                    <br>
+                    <div class="rating">
+                        <span data-rating-id="5">☆</span>
+                        <span data-rating-id="4">☆</span>
+                        <span data-rating-id="3">☆</span>
+                        <span data-rating-id="2">☆</span>
+                        <span data-rating-id="1">☆</span>
+                    </div>
+                    <input type="submit" name="submit" id="submit"/>
+                </form>
+                <ul id="reviews">
+                </ul>
+            </div>
+        `
     }
 })
