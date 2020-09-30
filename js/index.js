@@ -30,6 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
         fetch(COMICS_BASE_URL + randomInt(1, 50))
         .then(resp => resp.json())
         .then(comic => {
+            resetComicShow();
             renderComic(comic)})
     }
 
@@ -60,6 +61,7 @@ document.addEventListener("DOMContentLoaded", () => {
         fetch(COMICS_BASE_URL + comicId)
         .then(resp => resp.json())
         .then(comic => {
+            resetComicShow()
             renderComic(comic)})
     }
 
@@ -79,7 +81,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function renderComic(comic) {
-        resetComicShow();
         const comicBookShow = document.querySelector(".comic-book-show");
         comicBookShow.id = "visible";
         const characterList = document.querySelector(".character-list");
@@ -94,15 +95,15 @@ document.addEventListener("DOMContentLoaded", () => {
         const reviewForm = document.querySelector("#review-form");
         reviewForm.dataset.comicId = comic.id;
         const reviewList = document.getElementById('reviews');
+        reviewList.innerHTML = ``
         for(const review of comic.reviews) {
             let newLi = document.createElement('li')
             newLi.innerHTML = `
-            Review: ${review.comment}
+            <p id="review-comment">${review.comment}</p>
             <br>
-            Rating: ${review.rating}
-            <br>
-            By: ${review.name}
-            `
+            <span id="review-rating">Rating: ${review.rating}</span>
+            <span id="review-commentor">${review.name}</span>
+            `;
             reviewList.append(newLi)
         }
     }
@@ -114,6 +115,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const reviewForm = document.createElement('form');
         reviewForm.id = "review-form";
         reviewForm.innerHTML = `
+            <h1 id="add-review">Add a Review!</h1>
             <input type="text" placeholder="Reviewer Name" name="name">
             <br>
             <br>
@@ -209,11 +211,10 @@ document.addEventListener("DOMContentLoaded", () => {
         const reviewLi = document.createElement("li");
         reviewLi.dataset.reviewId = reviewObj.id;
         reviewLi.innerHTML = `
-        <b>Review: </b>${reviewObj.comment}
+        <p id="review-comment">${reviewObj.comment}</p>
         <br>
-        <b>Rating: </b>${reviewObj.rating}
-        <br>
-        <b>By: </b>${reviewObj.name}
+        <span id="review-rating">Rating: ${reviewObj.rating}</span>
+        <span id="review-commentor">${reviewObj.name}</span>
         `
         reviewUl.appendChild(reviewLi)
         
@@ -237,6 +238,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const clickHandler = () => {
         document.addEventListener('click', e => {
             if (e.target.parentNode.matches(".character-panel-list")) {
+                let comicBookShow = document.querySelector(".comic-book-show")
+                comicBookShow.innerHTML = ``
+                comicBookShow.id = "hidden";
                 getCharacter(e.target.parentNode.dataset.characterId)
                 .then(character => {
                     const characterList = document.querySelector(".character-list");
@@ -254,7 +258,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 getAllCharactersPanel();
                 paused = true;
             } else if (e.target.matches("#random-comic")) {
-                resetComicShow();
                 const characterList = document.querySelector(".character-list");
                 characterList.innerHTML = ``
                 let comicBookShow = document.querySelector(".comic-book-show")
@@ -263,6 +266,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 getAllCharactersPanel();
                 paused = true;
             } else if (e.target.matches("#home")) {
+                resetComicShow()
+                getRandomComic();
                 const characterList = document.querySelector(".character-list");
                 characterList.innerHTML = ``
                 let comicBookShow = document.querySelector(".comic-book-show");
@@ -273,7 +278,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 paused = true;
             } else if (e.target.matches("a.comic-button")) {
                 comicId = e.target.dataset.comicId;
-                resetComicShow();
                 getComic(comicId)
             } else if(e.target.matches(`[data-rating-id="5"]`)) {
                 const rating = document.querySelector(".rating");
@@ -406,12 +410,14 @@ document.addEventListener("DOMContentLoaded", () => {
         comicBookShow.innerHTML = `
         <div class="comic-info">
                 <h1 id="title"></h1>
+                <br>
                 <img style="margin-top: 25px; box-shadow: 7px 7px 5px #888888;" id="image" src="">
-                <p style="margin-top: 50px" id="description"></p>
+                <p class="bubble bubble-bottom-left" id="description"></p>
             </div>
             <div class="review">
                 <form id="review-form">
-                    <input type="text" placeholder="Name" name="name">
+                    <h1 "add-review">Add a Review!</h1>
+                    <input type="text" placeholder="Reviewer Name" name="name">
                     <br>
                     <br>
                     <textarea class="text-area" placeholder="Write Review Here"type="textarea" name="review"></textarea>
@@ -424,7 +430,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         <span data-rating-id="2">☆</span>
                         <span data-rating-id="1">☆</span>
                     </div>
-                    <input type="submit" name="submit" id="submit"/>
+                    <input id="review-button" type="submit" name="submit"/>
                 </form>
                 <ul id="reviews">
                 </ul>

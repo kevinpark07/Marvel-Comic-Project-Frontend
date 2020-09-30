@@ -1,5 +1,12 @@
-* {
-  font-family: 'Roboto', sans-serif;
+h1, textarea, input, form, button {
+  font-family: 'Permanent Marker', cursive;
+}
+
+li {
+  font-family: 'Permanent Marker', cursive;
+  font-size: 18;
+  color: red;
+  letter-spacing: 0.3ch;
 }
 
 .rating {
@@ -11,6 +18,7 @@
   display: inline-block;
   position: relative;
   width: 1.1em;
+  color: gold;
 }
 .rating > span:hover:before,
 .rating > span:hover ~ span:before {
@@ -35,39 +43,22 @@ width: 1.1em;
   fill: gold;
 }
 
-#submit {
-   display:inline-block;
-   padding:0.35em 1.2em;
-   border:1px solid black;
-   margin:0 0.3em 0.3em 0;
-   border-radius:0.12em;
-   box-sizing: border-box;
-   text-decoration:none;
-   font-family:'Roboto',sans-serif;
-   font-weight:300;
-   color:#FFFFFF;
-   text-align:center;
-   transition: all 0.2s;
+input#review-button {
+  font-size: 16px;
+  padding: 12px 28px;
+  border-radius: 8px;
+  transition-duration: 0.4s;
+  box-shadow: 4px 4px red;
+  font: Helvetica;
 }
 
-#submit:hover{
- color:#000000;
- background-color: red;
-}
-
-@media all and (max-width:30em){
-   #submit {
-    display:block;
-    margin:0.4em auto;
-   }
-}
 
 a.button {
   font-size: 16px;
   padding: 12px 28px;
   border-radius: 8px;
   transition-duration: 0.4s;
-  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+  box-shadow: 10px 8px 16px 0 rgba(0,0,0,0.2), 10px 6px 20px 0 rgba(0,0,0,0.19);
   font: Helvetica;
 }
 
@@ -82,50 +73,42 @@ a.button:hover{
    }
 }
 
-
-#video {
-  display: block;
-  object-fit: fill;
+div.header {
   margin: auto;
-  border: 10px inset #ddd;
-}
-
-
-#banner-image {
-  width: 100%;
-  height: 250px;
-  border: 10px inset #ddd;
-}
-
-.topnav {
   overflow: hidden;
-  width: 100%;
-  background-color: #333;
+  border: 11px inset #ddd;
+
 }
+
+#banner-video {
+  object-fit: fill;
+  margin-left: 2%;
+  transform: scale(1.2);
+}
+
 
 * {
   box-sizing: border-box;
 }
 
+
 div.main-panel {
-  height: auto;
   width: 70%;
-  margin: auto;
-  position: absolute;
+  margin-left: auto;
   z-index: 1;
-  top: 380px;
-  right: 50px;
-  /* border: 5px solid black; */
+  transition-duration: 0.4s;
+  margin-bottom: 5%;
+  margin-right: 3%;
 }
 
 ul.nav-bar {
   list-style-type: none;
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  overflow: hidden;
+  margin-top: auto;
+  margin-bottom: auto;
   background-color: #333;
-  height: 60px;
+  height: 100px;
+  position: sticky;
+  border: 11px inset #ddd;
 }
 li.nav-list {
   display: inline;
@@ -133,16 +116,16 @@ li.nav-list {
   justify-content: center;
   align-items: center;
   padding-left: 50px;
-  padding-top: 9px;
+  margin-top: 1%;
 }
 li.search {
   display: inline-flex;
   float: right;
   justify-content: center;
   align-items: center;
-  height: 50px;
-  padding-right: 10px;
-  padding-top: 5px;
+  margin-right: 5%;
+  margin-top: 2%;
+  transform: scale(1.4)
 }
 li a {
   display: block;
@@ -155,21 +138,49 @@ li a {
 }
 li a:hover {
   background-color: maroon;
+  transition-duration: 0.4s;
+}
+
+div.main-body-container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+  border: 11px inset #ddd;
+  min-height: 1200px;
+}
+
+.bg-video-container {
+  margin: auto;
+  position: absolute;
+  justify-content: center;
+  z-index: -1000;
+  overflow: hidden;
+}
+
+#bg-video {
+  object-fit: fill
+
 }
 
 div.left-panel {
-  height: auto;
   position: absolute;
+  margin-right: auto;
+  margin-top: 7%;
+  height: auto;
   z-index: 1;
-  top: 400px;
-  left: 10px;
-  display: flex;
+  margin-left: 50px;
+  transform: scale(1.2);
+  transition-duration: 0.4s;
 }
+
 ul#panel-list {
   list-style-type: none;
   padding: 0;
   width: 200px;
   background-color: #333;
+  border: 11px inset #ddd;
+  transition-duration: 0.4s;
 }
 
 li.panel {
@@ -180,9 +191,10 @@ li.panel {
   text-align: center;
   justify-content: center;
   padding-top: 50px;
+  transition-duration: 0.4s;
+  font-family: 'Roboto', sans-serif;
 }
 
-/* Change the link color on hover */
 li.panel:hover {
   background-color: darkgray;
 }
@@ -194,6 +206,7 @@ textarea {
   border-radius: 4px;
   background-color: #f8f8f8;
   resize: none;
+  font-size: 20;
 }
 form#review-form {
   align-items: center;
@@ -207,10 +220,10 @@ form#review-form {
 }
 
 div.comic-book-show {
-  /* justify-content: center; */
   align-items: center;
   text-align: center;
   margin-top: 50px;
+  transition-duration: 0.4s;
 }
 
 
@@ -221,10 +234,13 @@ div#visible {
 }
 
 
-img{
-  height: 30%;
-  width: 30%;
+img {
+  height: 50%;
+  width: 50%;
+  border: 11px inset #ddd;
 }
+
+
 
 ul#reviews {
   margin-top: 50px;
@@ -233,10 +249,149 @@ ul#reviews {
 }
 
 ul#reviews li {
-  margin-top: 20px;
-  border: 3px solid rgb(196, 32, 32);
-  margin-right: 30px;
-  font-family: "Comic Sans MS", cursive, sans-serif;
-  background-color: #ccc;
+  position: relative;
+  font-family: 'Permanent Marker', cursive;
+  font-size: 15pt;
+  line-height: 24px;
+  width: auto;
+  height: auto;
+  background: #fff;
+  border-radius: 40px;
+  padding: 40px;
+  text-align: left;
+  color: #000;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 50px;
 }
 
+ul#reviews li:before {
+  content: "";
+  width: 0px;
+  height: 0px;
+  position: absolute;
+  border-left: 12px solid #fff;
+  border-right: 24px solid transparent;
+  border-top: 12px solid #fff;
+  border-bottom: 20px solid transparent;
+  right: 32px;
+  bottom: -24px;
+}
+
+p#description {
+    padding: 2rem 4rem;
+    display: inline-block;
+    border: 3px solid #333333;
+    font-size: 12pt;
+    color: red;
+    font-family:'Permanent Marker', cursive;
+    border-radius: 2% 6% 5% 4% / 1% 1% 2% 4%;
+    text-transform: uppercase;
+    letter-spacing: 0.3ch;
+    background: #ffffff;
+    position: relative;
+    
+    &::before {
+        content: '';
+        border: 2px solid #353535;
+        display: block;
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate3d(-50%, -50%, 0) scale(.75) rotate(0.5deg);
+        border-radius: 1% 1% 2% 4% / 2% 6% 5% 4%;
+    }
+}
+
+.bubble {
+  position: relative;
+  font-family: 'Permanent Marker', cursive;
+  font-size: 15pt;
+  line-height: 24px;
+  width: auto;
+  height: auto;
+  background: #fff;
+  border-radius: 40px;
+  padding: 40px;
+  text-align: left;
+  color: #000;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 50px;
+}
+
+.bubble-bottom-right:before {
+  content: "";
+  width: 0px;
+  height: 0px;
+  position: absolute;
+  border-left: 12px solid #fff;
+  border-right: 24px solid transparent;
+  border-top: 12px solid #fff;
+  border-bottom: 20px solid transparent;
+  right: 32px;
+  bottom: -24px;
+}
+
+h1 {
+  font-size: 30pt;
+  font-family:'Permanent Marker', cursive;
+  text-transform: uppercase;
+  letter-spacing: 0.5ch;
+  color: red;
+  text-shadow: 1px 1px 2px white, 0 0 25px white, 0 0 5px white;
+  text-decoration: underline;
+}
+
+h1#title {
+  display: inline-block;
+  font-size: 30pt;
+  font-family:'Permanent Marker', cursive;
+  text-transform: uppercase;
+  letter-spacing: 0.5ch;
+  position: relative;
+  color: red;
+  text-shadow: 1px 1px 2px white, 0 0 25px white, 0 0 5px white;
+  text-decoration: underline;
+}
+
+h1#add-review {
+  font-family: 'Permanent Marker', cursive;
+  color: red;
+}
+
+  h1#character-name {
+    color: red
+    font-family: 'Permanent Marker', cursive;
+  }
+
+  p#character-desc {
+    padding: 2rem 4rem;
+    display: inline-block;
+    border: 3px solid #333333;
+    font-size: 12pt;
+    color: red;
+    font-family:'Permanent Marker', cursive;
+    border-radius: 2% 6% 5% 4% / 1% 1% 2% 4%;
+    text-transform: uppercase;
+    letter-spacing: 0.3ch;
+    background: #ffffff;
+    position: relative;
+  }
+
+  p#review-comment {
+    align-content: left;
+    vertical-align: top;
+  }
+
+  span#review-rating {
+    text-align: left;
+    vertical-align: text-bottom;
+  }
+
+  span#review-commentor {
+    float: right;
+    /* vertical-align: text-bottom; */
+  }
