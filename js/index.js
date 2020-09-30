@@ -79,6 +79,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function renderComic(comic) {
+        resetComicShow();
         const comicBookShow = document.querySelector(".comic-book-show");
         comicBookShow.id = "visible";
         const characterList = document.querySelector(".character-list");
@@ -96,15 +97,47 @@ document.addEventListener("DOMContentLoaded", () => {
         for(const review of comic.reviews) {
             let newLi = document.createElement('li')
             newLi.innerHTML = `
-            Rating: ${review.rating}
-            <br>
             Review: ${review.comment}
+            <br>
+            Rating: ${review.rating}
             <br>
             By: ${review.name}
             `
             reviewList.append(newLi)
         }
     }
+
+
+    const resetForm = () => {
+        const reviewDiv = document.querySelector('div.review');
+        reviewDiv.innerHTML = ""
+        const reviewForm = document.createElement('form');
+        reviewForm.id = "review-form";
+        reviewForm.innerHTML = `
+            <input type="text" placeholder="Reviewer Name" name="name">
+            <br>
+            <br>
+            <textarea class="text-area" placeholder="Write Review Here" name="review"></textarea>
+            <br>
+            <br>
+            <div class="rating">
+                <span data-rating-id="5">☆</span>
+                <span data-rating-id="4">☆</span>
+                <span data-rating-id="3">☆</span>
+                <span data-rating-id="2">☆</span>
+                <span data-rating-id="1">☆</span>
+            </div>
+            <input type="submit" name="submit"/>
+        `;
+        
+        reviewDiv.appendChild(reviewForm);
+
+        const reviewUl = document.createElement('ul')
+        reviewUl.id = "reviews"
+
+        reviewDiv.insertAdjacentElement('afterend', reviewUl);
+    }
+
 
     function renderCharacterLeftPanel(characters) {
         let ul = document.getElementById('panel-list')
@@ -176,11 +209,11 @@ document.addEventListener("DOMContentLoaded", () => {
         const reviewLi = document.createElement("li");
         reviewLi.dataset.reviewId = reviewObj.id;
         reviewLi.innerHTML = `
-            Rating: ${reviewObj.rating}
-            <br>
-            Review: ${reviewObj.comment}
-            <br>
-            By: ${reviewObj.name} 
+        <b>Review: </b>${reviewObj.comment}
+        <br>
+        <b>Rating: </b>${reviewObj.rating}
+        <br>
+        <b>By: </b>${reviewObj.name}
         `
         reviewUl.appendChild(reviewLi)
         
@@ -221,18 +254,19 @@ document.addEventListener("DOMContentLoaded", () => {
                 getAllCharactersPanel();
                 paused = true;
             } else if (e.target.matches("#random-comic")) {
+                resetComicShow();
                 const characterList = document.querySelector(".character-list");
                 characterList.innerHTML = ``
                 let comicBookShow = document.querySelector(".comic-book-show")
-                comicBookShow.id = "visible"
+                comicBookShow.id = "visible";
                 getRandomComic();
                 getAllCharactersPanel();
                 paused = true;
             } else if (e.target.matches("#home")) {
                 const characterList = document.querySelector(".character-list");
                 characterList.innerHTML = ``
-                let comicBookShow = document.querySelector(".comic-book-show")
-                comicBookShow.id = "visible"
+                let comicBookShow = document.querySelector(".comic-book-show");
+                comicBookShow.id = "visible";
                 getAllCharactersPanel();
                 paused = false;
             } else if (e.target.matches(".main-panel")) {
@@ -380,7 +414,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     <input type="text" placeholder="Name" name="name">
                     <br>
                     <br>
-                    <input class="text-area" placeholder="Write Review Here"type="textarea"     name="review">
+                    <textarea class="text-area" placeholder="Write Review Here"type="textarea" name="review"></textarea>
                     <br>
                     <br>
                     <div class="rating">
