@@ -62,16 +62,6 @@ a.button {
   font: Helvetica;
 }
 
-a.button:hover{
- color:#000000;
- background-color: red;
-}
-@media all and (max-width:30em){
-   .button1{
-    display:block;
-    margin:0.4em auto;
-   }
-}
 
 div.header {
   margin: auto;
@@ -86,20 +76,10 @@ div.header {
   transform: scale(1.2);
 }
 
-
 * {
   box-sizing: border-box;
 }
 
-
-div.main-panel {
-  width: 70%;
-  margin-left: auto;
-  z-index: 1;
-  transition-duration: 0.4s;
-  margin-bottom: 5%;
-  margin-right: 3%;
-}
 
 ul.nav-bar {
   list-style-type: none;
@@ -166,7 +146,7 @@ div.main-body-container {
 div.left-panel {
   position: absolute;
   margin-right: auto;
-  margin-top: 7%;
+  margin-top: 6.5%;
   height: auto;
   z-index: 1;
   margin-left: 50px;
@@ -198,10 +178,19 @@ li.panel {
 li.panel:hover {
   background-color: darkgray;
 }
+
+div.main-panel {
+  width: 70%;
+  margin-left: auto;
+  z-index: 1;
+  transition-duration: 0.4s;
+  margin-bottom: 5%;
+  margin-right: 3%;
+}
+
 textarea {
   width: 80%;
   height: 100px;
-  /* box-sizing: border-box; */
   border: 2px solid #ccc;
   border-radius: 4px;
   background-color: #f8f8f8;
@@ -222,7 +211,7 @@ form#review-form {
 div.comic-book-show {
   align-items: center;
   text-align: center;
-  margin-top: 50px;
+  margin-top: auto;
   transition-duration: 0.4s;
 }
 
@@ -291,7 +280,7 @@ p#description {
     background: #ffffff;
     position: relative;
     
-    &::before {
+    /* &::before {
         content: '';
         border: 2px solid #353535;
         display: block;
@@ -302,7 +291,7 @@ p#description {
         left: 50%;
         transform: translate3d(-50%, -50%, 0) scale(.75) rotate(0.5deg);
         border-radius: 1% 1% 2% 4% / 2% 6% 5% 4%;
-    }
+    } */
 }
 
 .bubble {
@@ -363,7 +352,7 @@ h1#add-review {
 }
 
   h1#character-name {
-    color: red
+    color: red;
     font-family: 'Permanent Marker', cursive;
   }
 
@@ -393,5 +382,4 @@ h1#add-review {
 
   span#review-commentor {
     float: right;
-    /* vertical-align: text-bottom; */
   }

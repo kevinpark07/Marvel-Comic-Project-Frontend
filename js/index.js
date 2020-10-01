@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
             if (!paused) {
             const response = await fetch(url + randomInt(1, 50));
             const json = await response.json();
-            renderComic(json);}}, 3000);
+            renderComic(json);}}, 5000);
         }
     }
     
@@ -45,7 +45,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     
 
-    function getAllCharactersPanel(){
+    function getAllCharactersPanel() {
         fetch(CHARACTER_BASE_URL)
         .then(resp => resp.json())
         .then(characters => renderCharacterLeftPanel(characters))
@@ -54,7 +54,6 @@ document.addEventListener("DOMContentLoaded", () => {
     function getAllComics() {
         fetch(COMICS_BASE_URL)
         .then(resp => resp.json())
-        .then(comic => comic)
     }
 
     function getComic(comicId) {
@@ -68,16 +67,6 @@ document.addEventListener("DOMContentLoaded", () => {
     function getCharacter(characterId) {
         return fetch(CHARACTER_BASE_URL + characterId)
         .then(resp => resp.json())
-    }
-
-    function createCharacterObject(characterInfo) {
-        const character = {
-            id: characterInfo.id,
-            name: characterInfo.name,
-            description: characterInfo.description,
-            image: characterInfo.image,
-            comic_books: characterInfo.comic_books
-        }
     }
 
     function renderComic(comic) {
@@ -106,38 +95,6 @@ document.addEventListener("DOMContentLoaded", () => {
             `;
             reviewList.append(newLi)
         }
-    }
-
-
-    const resetForm = () => {
-        const reviewDiv = document.querySelector('div.review');
-        reviewDiv.innerHTML = ""
-        const reviewForm = document.createElement('form');
-        reviewForm.id = "review-form";
-        reviewForm.innerHTML = `
-            <h1 id="add-review">Add a Review!</h1>
-            <input type="text" placeholder="Reviewer Name" name="name">
-            <br>
-            <br>
-            <textarea class="text-area" placeholder="Write Review Here" name="review"></textarea>
-            <br>
-            <br>
-            <div class="rating">
-                <span data-rating-id="5">☆</span>
-                <span data-rating-id="4">☆</span>
-                <span data-rating-id="3">☆</span>
-                <span data-rating-id="2">☆</span>
-                <span data-rating-id="1">☆</span>
-            </div>
-            <input type="submit" name="submit"/>
-        `;
-        
-        reviewDiv.appendChild(reviewForm);
-
-        const reviewUl = document.createElement('ul')
-        reviewUl.id = "reviews"
-
-        reviewDiv.insertAdjacentElement('afterend', reviewUl);
     }
 
 
@@ -226,7 +183,7 @@ document.addEventListener("DOMContentLoaded", () => {
         newDiv = document.createElement('div')
         newDiv.innerHTML = `
             <h1 id="character-name">${characterObj.name}</h1>
-            <img id="character-img" src="${characterObj.image}"></img>
+            <img id="character-img" data-character-id="${characterObj.id}" style="margin-top: 25px; box-shadow: 0px 0px 30px white;" src="${characterObj.image}"></img>
             <p id="character-desc">${characterObj.description}</p>
         `
         characterList.appendChild(newDiv)
@@ -354,6 +311,14 @@ document.addEventListener("DOMContentLoaded", () => {
                 e.target.textContent = "★";
                 e.target.style.color = "gold";
                 }
+            } else if (e.target.matches("#character-img")) {
+                getCharacter(e.target.dataset.characterId)
+                .then(character => {
+                    const characterList = document.querySelector(".character-list");
+                    characterList.innerHTML = ``
+                    renderCharacterInfo(character);
+                    renderComicLeftPanel(character);
+                })
             }
         })
     }
@@ -400,6 +365,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     getAllCharacters();
     getAllCharactersPanel();
+    getAllComics();
     getRandomComic();
     startShowingComic(COMICS_BASE_URL);
     clickHandler();
@@ -411,7 +377,7 @@ document.addEventListener("DOMContentLoaded", () => {
         <div class="comic-info">
                 <h1 id="title"></h1>
                 <br>
-                <img style="margin-top: 25px; box-shadow: 7px 7px 5px #888888;" id="image" src="">
+                <img style="margin-top: 25px; box-shadow: 0px 0px 30px white;" id="image" src="">
                 <p class="bubble bubble-bottom-left" id="description"></p>
             </div>
             <div class="review">
