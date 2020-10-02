@@ -87,15 +87,20 @@ document.addEventListener("DOMContentLoaded", () => {
         reviewList.innerHTML = ``
         for(const review of comic.reviews) {
             let newLi = document.createElement('li')
+            newLi.dataset.id = comic.id
             newLi.innerHTML = `
             <p id="review-comment">${review.comment}</p>
             <br>
-            <span id="review-rating">Rating: ${review.rating}</span>
+            <span id="review-rating" data-review-rating="${review.rating}">Rating: ${review.rating}</span>
             <span id="review-commentor">${review.name}</span>
+            <button id="review-update" data-review-id="${review.id}" data-review-comic-id="${review.comic_book.id}">Edit</button>
+            <button id="review-delete" data-review-id="${review.id}" data-review-comic-id="${review.comic_book.id}">Delete</button>
             `;
             reviewList.append(newLi)
         }
     }
+
+
 
 
     function renderCharacterLeftPanel(characters) {
@@ -166,15 +171,16 @@ document.addEventListener("DOMContentLoaded", () => {
     const insertReview = reviewObj => {
         const reviewUl = document.querySelector("#reviews");
         const reviewLi = document.createElement("li");
-        reviewLi.dataset.reviewId = reviewObj.id;
+        reviewLi.dataset.Id = reviewObj.id;
         reviewLi.innerHTML = `
-        <p id="review-comment">${reviewObj.comment}</p>
+        <p id="review-comment" data-review-id="${reviewObj.id}">${reviewObj.comment}</p>
         <br>
-        <span id="review-rating">Rating: ${reviewObj.rating}</span>
+        <span id="review-rating" data-review-rating="${reviewObj.rating}">Rating: ${reviewObj.rating}</span>
         <span id="review-commentor">${reviewObj.name}</span>
+        <button id="review-update" data-review-id="${reviewObj.id}" data-review-comic-id="${reviewObj.comic_book.id}">Edit</button>
+        <button id="review-delete" data-review-id="${reviewObj.id}" data-review-comic-id="${reviewObj.comic_book.id}">Delete</button>
         `
         reviewUl.appendChild(reviewLi)
-        
     }
 
     const renderCharacterInfo = characterObj => {
@@ -366,6 +372,19 @@ document.addEventListener("DOMContentLoaded", () => {
                 mazeRender();
                 currentPosition = {x: 1, y: 1}
                 renderShang(currentPosition); 
+            } else if (e.target.matches("#review-update")) {
+                const reviewLi = e.target.parentElement;
+                const comment = reviewLi.querySelector("#review-comment").textContent;
+                const name = reviewLi.querySelector("#review-commentor").textContent;
+                let reviewForm = document.querySelector("#review-form")
+                reviewForm.name.value = name;
+                reviewForm.review.value = comment;
+                reviewLi.remove();
+                deleteReview(e.target.dataset.reviewId)
+            } else if (e.target.matches("#review-delete")) {
+                deleteReview(e.target.dataset.reviewId)
+                const reviewLi = e.target.parentElement;
+                reviewLi.remove();
             }
         })
     }
@@ -399,6 +418,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     });
                 let characterId = searchedCharacter.map(character => {
                     return character.id
+                    e.target.reset();
                 })
                 getCharacter(characterId)
                 .then(character => {
@@ -410,6 +430,14 @@ document.addEventListener("DOMContentLoaded", () => {
                 resetComicShow();
             }
         })
+    }
+
+    function deleteReview(reviewId) {
+        const options = {
+            method: "DELETE",
+        }
+        fetch(REVIEW_BASE_URL + reviewId, options)
+        .then(response => response.json())
     }
 
     const mazeMovements = () => {

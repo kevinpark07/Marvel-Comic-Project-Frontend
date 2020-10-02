@@ -17,8 +17,9 @@ li {
 .rating > span {
   display: inline-block;
   position: relative;
-  width: 1.1em;
+  width: 1.5em;
   color: gold;
+  transform: scale(1.5);
 }
 .rating > span:hover:before,
 .rating > span:hover ~ span:before {
@@ -125,6 +126,7 @@ li a {
   align-items: center;
   justify-content: center;
 }
+
 li a:hover {
   background-color: maroon;
   transition-duration: 0.4s;
@@ -194,7 +196,7 @@ div.main-panel {
   z-index: 1;
   transition-duration: 0.4s;
   margin-bottom: 5%;
-  margin-right: 3%;
+  margin-right: 7.5%;
 }
 
 textarea {
@@ -204,8 +206,14 @@ textarea {
   border-radius: 4px;
   background-color: #f8f8f8;
   resize: none;
-  font-size: 20;
+  font-size: 20pt;
 }
+
+form#review-form > input {
+  font-size: 15pt;
+  height: 50px;
+}
+
 form#review-form {
   align-items: center;
   text-align: center;
@@ -395,6 +403,12 @@ span#review-rating {
 span#review-commentor {
   float: right;
 }
+
+.review-button {
+  float: center;
+}
+
+
 .maze-div {
   align-items: center;
   text-align: center;
@@ -434,4 +448,15 @@ span#review-commentor {
   transition-duration: 0.4s;
   box-shadow: 4px 4px red;
   font: Helvetica;
+}
+
+button#review-update {
+  margin-left: 30%;
+  transform: scale(1.5);
+  margin-right: 5%;
+}
+
+button#review-delete {
+  margin-right: 5%;
+  transform: scale(1.5);
 }
