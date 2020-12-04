@@ -418,7 +418,6 @@ document.addEventListener("DOMContentLoaded", () => {
                     });
                 let characterId = searchedCharacter.map(character => {
                     return character.id
-                    e.target.reset();
                 })
                 getCharacter(characterId)
                 .then(character => {
@@ -428,6 +427,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     renderComicLeftPanel(character);
                 });
                 resetComicShow();
+                e.target.reset();
             }
         })
     }
